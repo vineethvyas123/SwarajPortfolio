@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Upload, ShieldCheck } from "lucide-react";
+import { PROFILE_IMAGE_BASE64 } from "../profile_image_base64";
 
 export default function ProfilePhoto() {
   const [photo, setPhoto] = useState<string | null>(null);
@@ -69,7 +70,7 @@ export default function ProfilePhoto() {
   };
 
   // Standard premium fallback image of Swaraj Kumar Padma
-  const fallbackPhoto = "/Swaraj_Crop.jpg";
+  const fallbackPhoto = PROFILE_IMAGE_BASE64;
   
   // Choose which photo to display
   const displayPhoto = (photo && photo !== "null" && photo !== "undefined") ? photo : fallbackPhoto;
@@ -102,15 +103,12 @@ export default function ProfilePhoto() {
             <img 
               src={displayPhoto} 
               alt="Swaraj Kumar Padma" 
-              onError={(e) => {
+              onError={() => {
                 console.warn("Profile photo image failed to load. Attempting safe recovery...");
                 if (photo) {
                   // Clear bad photo from state and localStorage
                   localStorage.removeItem("skp_profile_photo");
                   setPhoto(null);
-                } else if (e.currentTarget.src !== window.location.origin + fallbackPhoto && !e.currentTarget.src.endsWith(fallbackPhoto)) {
-                  // Force element to use the standard fallback photo if not already doing so
-                  e.currentTarget.src = fallbackPhoto;
                 }
               }}
               className="w-full h-full object-cover grayscale brightness-95 contrast-105 transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.02]"
