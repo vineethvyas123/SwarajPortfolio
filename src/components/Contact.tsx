@@ -1,21 +1,8 @@
-import { useState } from "react";
-import { Mail, Phone, ExternalLink, FileText, Check, Copy, MapPin } from "lucide-react";
+import { Mail, Phone, ExternalLink, Download, MapPin } from "lucide-react";
 import { profileData } from "../data";
 import AnimatedSection from "./AnimatedSection";
 
 export default function Contact() {
-  const [copied, setCopied] = useState(false);
-
-  const copyEmail = () => {
-    navigator.clipboard.writeText(profileData.email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const triggerPrintResume = () => {
-    window.print();
-  };
-
   return (
     <AnimatedSection
       id="contact"
@@ -51,24 +38,6 @@ export default function Contact() {
             Email Me
           </a>
 
-          {/* Copy Email Helper */}
-          <button
-            onClick={copyEmail}
-            className="flex items-center gap-2 border border-border-gold hover:border-gold hover:text-gold text-text-primary text-xs sm:text-sm font-sans tracking-wider uppercase font-semibold px-4 py-3 rounded-[2px] transition-all bg-dark3 hover:-translate-y-0.5 cursor-pointer"
-          >
-            {copied ? (
-              <>
-                <Check className="w-4 h-4 text-green-400" />
-                <span className="text-green-400">Copied!</span>
-              </>
-            ) : (
-              <>
-                <Copy className="w-4 h-4 text-gold" />
-                Copy Address
-              </>
-            )}
-          </button>
-
           {/* Phone button */}
           <a
             href={`tel:${profileData.phone.replace(/\s+/g, '')}`}
@@ -93,13 +62,6 @@ export default function Contact() {
 
           {/* Print/Download Dynamic Resume */}
           <div className="flex flex-wrap justify-center gap-3 w-full mt-2">
-            <button
-              onClick={triggerPrintResume}
-              className="flex items-center gap-2 border border-gold hover:bg-gold hover:text-dark text-gold text-xs sm:text-sm font-sans tracking-wider uppercase font-semibold px-5 py-3 rounded-[2px] transition-all hover:-translate-y-0.5 cursor-pointer"
-            >
-              <FileText className="w-4 h-4" />
-              Print / Export PDF
-            </button>
             <a
               href="/Swaraj_Kumar_Padma_Resume.html"
               target="_blank"
@@ -109,14 +71,13 @@ export default function Contact() {
               <ExternalLink className="w-4 h-4 text-gold" />
               View Standalone CV
             </a>
-            <a
-              href="/Swaraj_Kumar_Padma_Resume.md"
-              download="Swaraj_Kumar_Padma_Resume.md"
-              className="flex items-center gap-2 border border-border-gold hover:border-gold hover:text-gold text-text-primary text-xs sm:text-sm font-sans tracking-wider uppercase font-semibold px-5 py-3 rounded-[2px] transition-all bg-dark3 hover:-translate-y-0.5"
+            <button
+              onClick={() => window.print()}
+              className="flex items-center gap-2 border border-border-gold hover:border-gold hover:text-gold text-text-primary text-xs sm:text-sm font-sans tracking-wider uppercase font-semibold px-5 py-3 rounded-[2px] transition-all bg-dark3 hover:-translate-y-0.5 cursor-pointer"
             >
-              <Check className="w-4 h-4 text-gold" />
-              Download Markdown CV
-            </a>
+              <Download className="w-4 h-4 text-gold" />
+              DOWNLOAD CV
+            </button>
           </div>
 
         </div>
