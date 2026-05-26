@@ -7,10 +7,12 @@ export default function ProfilePhoto() {
   const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
-    // 1. Load persisted photo from localStorage if present
+    // 1. Load persisted photo from localStorage if present and valid base64 image
     const savedPhoto = localStorage.getItem("skp_profile_photo");
-    if (savedPhoto) {
+    if (savedPhoto && savedPhoto.startsWith("data:image/")) {
       setPhoto(savedPhoto);
+    } else if (savedPhoto) {
+      localStorage.removeItem("skp_profile_photo");
     }
 
     // 2. Determine if editable via URL query parameters (?edit=true or ?admin=true)
