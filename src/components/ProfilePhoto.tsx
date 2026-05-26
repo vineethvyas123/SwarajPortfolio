@@ -66,8 +66,8 @@ export default function ProfilePhoto() {
     }
   };
 
-  // Standard premium fallback image of a technology executive with beard & glasses
-  const fallbackPhoto = "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=600&h=800";
+  // Standard premium fallback image of Swaraj Kumar Padma
+  const fallbackPhoto = "/Swaraj_Crop.jpg";
   
   // Choose which photo to display
   const displayPhoto = photo || fallbackPhoto;

@@ -71,13 +71,14 @@ export default function Contact() {
               <ExternalLink className="w-4 h-4 text-gold" />
               View Standalone CV
             </a>
-            <button
-              onClick={() => window.print()}
+            <a
+              href="/SwarajKumar_Padma_Resume.pdf"
+              download="SwarajKumar_Padma_Resume.pdf"
               className="flex items-center gap-2 border border-border-gold hover:border-gold hover:text-gold text-text-primary text-xs sm:text-sm font-sans tracking-wider uppercase font-semibold px-5 py-3 rounded-[2px] transition-all bg-dark3 hover:-translate-y-0.5 cursor-pointer"
             >
               <Download className="w-4 h-4 text-gold" />
               DOWNLOAD CV
-            </button>
+            </a>
           </div>
 
         </div>
