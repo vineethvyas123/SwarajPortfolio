@@ -72,7 +72,7 @@ export default function ProfilePhoto() {
   const fallbackPhoto = "/Swaraj_Crop.jpg";
   
   // Choose which photo to display
-  const displayPhoto = photo || fallbackPhoto;
+  const displayPhoto = (photo && photo !== "null" && photo !== "undefined") ? photo : fallbackPhoto;
 
   return (
     <div className="relative w-full max-w-md mx-auto">
@@ -102,8 +102,18 @@ export default function ProfilePhoto() {
             <img 
               src={displayPhoto} 
               alt="Swaraj Kumar Padma" 
+              onError={(e) => {
+                console.warn("Profile photo image failed to load. Attempting safe recovery...");
+                if (photo) {
+                  // Clear bad photo from state and localStorage
+                  localStorage.removeItem("skp_profile_photo");
+                  setPhoto(null);
+                } else if (e.currentTarget.src !== window.location.origin + fallbackPhoto && !e.currentTarget.src.endsWith(fallbackPhoto)) {
+                  // Force element to use the standard fallback photo if not already doing so
+                  e.currentTarget.src = fallbackPhoto;
+                }
+              }}
               className="w-full h-full object-cover grayscale brightness-95 contrast-105 transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.02]"
-              referrerPolicy="no-referrer"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-dark/30 via-transparent to-transparent"></div>
             
