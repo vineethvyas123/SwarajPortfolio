@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { Upload } from "lucide-react";
+import { Upload, ShieldCheck } from "lucide-react";
 
 export default function ProfilePhoto() {
   const [photo, setPhoto] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
-    // Load persisted photo from localStorage if present
+    // 1. Load persisted photo from localStorage if present
     const savedPhoto = localStorage.getItem("skp_profile_photo");
     if (savedPhoto) {
       setPhoto(savedPhoto);
     }
+
+    // 2. Determine if editable via URL query parameters (?edit=true or ?admin=true)
+    const params = new URLSearchParams(window.location.search);
+    const hasEditParam = params.get("edit") === "true" || params.get("admin") === "true";
+    setIsEditable(hasEditParam);
   }, []);
 
   const handleFileChange = (file: File) => {
+    if (!isEditable) return; // Prevent unauthorized changes if not in edit mode
+    
     if (!file.type.startsWith("image/")) {
       setError("Please upload an image file.");
       return;
@@ -39,10 +47,12 @@ export default function ProfilePhoto() {
   };
 
   const onDragOver = (e: React.DragEvent) => {
+    if (!isEditable) return;
     e.preventDefault();
   };
 
   const onDrop = (e: React.DragEvent) => {
+    if (!isEditable) return;
     e.preventDefault();
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       handleFileChange(e.dataTransfer.files[0]);
@@ -50,74 +60,66 @@ export default function ProfilePhoto() {
   };
 
   const onFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!isEditable) return;
     if (e.target.files && e.target.files[0]) {
       handleFileChange(e.target.files[0]);
     }
   };
 
+  // Standard premium fallback image of a technology executive with beard & glasses
+  const fallbackPhoto = "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=600&h=800";
+  
+  // Choose which photo to display
+  const displayPhoto = photo || fallbackPhoto;
+
   return (
     <div className="relative w-full max-w-md mx-auto">
+      {/* Editorial admin banner if in edit mode */}
+      {isEditable && (
+        <div className="absolute -top-12 left-0 right-0 flex items-center justify-between bg-gold/15 border border-gold/30 rounded-[2px] px-3 py-1.5 z-30 transition-all shadow-md">
+          <span className="text-gold text-[10px] uppercase tracking-wider font-bold flex items-center gap-1.5">
+            <ShieldCheck className="w-3.5 h-3.5" />
+            Admin: Edit Mode Active
+          </span>
+          <span className="text-muted-gray text-[9px] uppercase tracking-wider">
+            Click / Drop to change
+          </span>
+        </div>
+      )}
+
       {/* Outer elegant frame inspired by high-end gallery frames */}
       <div 
         onDragOver={onDragOver}
         onDrop={onDrop}
-        className="group relative aspect-[3/4] w-full bg-dark4 border border-gold/30 rounded-[4px] overflow-hidden p-3 shadow-2xl transition-all duration-500 hover:border-gold"
+        className={`group relative aspect-[3/4] w-full bg-dark4 border rounded-[4px] overflow-hidden p-3 shadow-2xl transition-all duration-500 ${isEditable ? "border-gold cursor-pointer" : "border-gold/30 hover:border-gold/60"}`}
       >
         {/* Gallery hanging mat border */}
         <div className="relative w-full h-full bg-dark3 border border-gold/10 rounded-[2px] overflow-hidden flex flex-col items-center justify-center p-4">
           
-          {photo ? (
-            <div className="relative w-full h-full overflow-hidden rounded-[2px] transition-transform duration-700 group-hover:scale-105">
-              <img 
-                src={photo} 
-                alt="Swaraj Kumar Padma" 
-                className="w-full h-full object-cover grayscale brightness-95 contrast-105 transition-all duration-500 group-hover:grayscale-0"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent opacity-60"></div>
-            </div>
-          ) : (
-            /* Elegant artistic placeholder matching his profile: bearded, with glasses in suit */
-            <div className="w-full h-full flex flex-col items-center justify-center text-center px-4 space-y-6">
-              {/* Stylized vector representation */}
-              <div className="relative w-36 h-36 rounded-full border-2 border-gold/20 flex items-center justify-center bg-dark/40 overflow-hidden shadow-inner">
-                {/* Executive Silhouette with Glasses and Beard */}
-                <svg className="w-24 h-24 text-gold/60" fill="none" stroke="currentColor" strokeWidth="1" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  {/* Glasses detail */}
-                  <circle cx="10" cy="7" r="1.5" stroke="currentColor" strokeWidth="0.8" />
-                  <circle cx="14" cy="7" r="1.5" stroke="currentColor" strokeWidth="0.8" />
-                  <line x1="11.5" y1="7" x2="12.5" y2="7" stroke="currentColor" strokeWidth="0.8" />
-                </svg>
-                {/* Glow ring */}
-                <div className="absolute inset-0 border border-gold/10 rounded-full animate-pulse"></div>
-              </div>
-              
-              <div className="space-y-2">
-                <span className="font-serif italic text-lg text-gold/90 font-medium">Swaraj Kumar Padma</span>
-                <p className="text-muted-gray text-xs font-sans tracking-wide">
-                  Drag & drop your portrait photograph here, or click to load a JPG/PNG.
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* Hover Overlay with Upload Action */}
-          <label className="absolute inset-0 bg-dark/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center cursor-pointer p-4 text-center z-20">
-            <input 
-              type="file" 
-              accept="image/*" 
-              onChange={onFileSelect} 
-              className="hidden" 
+          <div className="relative w-full h-full overflow-hidden rounded-[2px]">
+            <img 
+              src={displayPhoto} 
+              alt="Swaraj Kumar Padma" 
+              className="w-full h-full object-cover grayscale brightness-95 contrast-105 transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.02]"
+              referrerPolicy="no-referrer"
             />
-            <Upload className="w-8 h-8 text-gold mb-3 animate-bounce" />
-            <span className="font-sans text-xs uppercase tracking-widest font-bold text-gold mb-1">
-              {photo ? "Update Portfolio Photo" : "Upload Portfolio Photo"}
-            </span>
-            <span className="text-muted-gray text-[10px] max-w-[200px]">
-              Supports JPG, JPEG, PNG (Image size limit 4MB)
-            </span>
-          </label>
+            <div className="absolute inset-0 bg-gradient-to-t from-dark/30 via-transparent to-transparent"></div>
+            
+            {/* Show uploader only if edit mode is active */}
+            {isEditable && (
+              <label className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-dark2/95 border border-gold/40 text-gold hover:border-gold hover:bg-gold hover:text-dark px-4 py-2 rounded-[2px] transition-all duration-300 flex items-center gap-1.5 cursor-pointer shadow-lg text-[10px] uppercase tracking-widest font-bold z-30">
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  onChange={onFileSelect} 
+                  className="hidden" 
+                />
+                <Upload className="w-3.5 h-3.5" />
+                Change Photo
+              </label>
+            )}
+          </div>
+
         </div>
 
         {/* Elegant Gold Corners (Luxury Accent) */}
@@ -127,7 +129,7 @@ export default function ProfilePhoto() {
         <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-gold/40"></div>
       </div>
 
-      {error && (
+      {isEditable && error && (
         <p className="text-red-400 text-xs text-center mt-3 font-medium bg-red-950/20 py-2 border border-red-900/30 rounded-[2px]">
           {error}
         </p>

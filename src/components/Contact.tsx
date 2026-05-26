@@ -92,13 +92,32 @@ export default function Contact() {
           </a>
 
           {/* Print/Download Dynamic Resume */}
-          <button
-            onClick={triggerPrintResume}
-            className="flex items-center gap-2 border border-gold hover:bg-gold hover:text-dark text-gold text-xs sm:text-sm font-sans tracking-wider uppercase font-semibold px-5 py-3 rounded-[2px] transition-all hover:-translate-y-0.5 cursor-pointer"
-          >
-            <FileText className="w-4 h-4" />
-            Print / Export Resume
-          </button>
+          <div className="flex flex-wrap justify-center gap-3 w-full mt-2">
+            <button
+              onClick={triggerPrintResume}
+              className="flex items-center gap-2 border border-gold hover:bg-gold hover:text-dark text-gold text-xs sm:text-sm font-sans tracking-wider uppercase font-semibold px-5 py-3 rounded-[2px] transition-all hover:-translate-y-0.5 cursor-pointer"
+            >
+              <FileText className="w-4 h-4" />
+              Print / Export PDF
+            </button>
+            <a
+              href="/Swaraj_Kumar_Padma_Resume.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 border border-border-gold hover:border-gold hover:text-gold text-text-primary text-xs sm:text-sm font-sans tracking-wider uppercase font-semibold px-5 py-3 rounded-[2px] transition-all bg-dark3 hover:-translate-y-0.5"
+            >
+              <ExternalLink className="w-4 h-4 text-gold" />
+              View Standalone CV
+            </a>
+            <a
+              href="/Swaraj_Kumar_Padma_Resume.md"
+              download="Swaraj_Kumar_Padma_Resume.md"
+              className="flex items-center gap-2 border border-border-gold hover:border-gold hover:text-gold text-text-primary text-xs sm:text-sm font-sans tracking-wider uppercase font-semibold px-5 py-3 rounded-[2px] transition-all bg-dark3 hover:-translate-y-0.5"
+            >
+              <Check className="w-4 h-4 text-gold" />
+              Download Markdown CV
+            </a>
+          </div>
 
         </div>
 

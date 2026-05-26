@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
 import { profileData } from "../data";
+import { Sun, Moon } from "lucide-react";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">(() => {
+    if (typeof window !== "undefined") {
+      const savedTheme = localStorage.getItem("skp_theme");
+      if (savedTheme === "light") return "light";
+    }
+    return "dark";
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +24,22 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === "light") {
+      root.classList.add("light");
+      root.classList.remove("dark");
+    } else {
+      root.classList.add("dark");
+      root.classList.remove("light");
+    }
+    localStorage.setItem("skp_theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -58,13 +82,29 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Right Side: CTA Button */}
-        <button
-          onClick={() => scrollToSection("contact")}
-          className="border border-gold text-gold hover:text-dark hover:bg-gold px-5 py-2 text-xs uppercase tracking-widest font-semibold transition-all duration-300 rounded-[2px] cursor-pointer"
-        >
-          Let's Talk
-        </button>
+        {/* Right Side Actions */}
+        <div className="flex items-center gap-4 sm:gap-6">
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 sm:p-2.5 rounded-full border border-border-gold text-gold hover:text-gold-light hover:bg-gold/10 transition-all duration-300 relative overflow-hidden group cursor-pointer flex items-center justify-center focus:outline-none"
+            aria-label="Toggle Theme"
+          >
+            {theme === "dark" ? (
+              <Sun className="w-4 h-4 transition-all duration-500 rotate-0 scale-100 group-hover:rotate-45" />
+            ) : (
+              <Moon className="w-4 h-4 transition-all duration-500 rotate-0 scale-100 group-hover:-rotate-12" />
+            )}
+          </button>
+
+          {/* CTA Button */}
+          <button
+            onClick={() => scrollToSection("contact")}
+            className="border border-gold text-gold hover:text-dark hover:bg-gold px-5 py-2 text-xs uppercase tracking-widest font-semibold transition-all duration-300 rounded-[2px] cursor-pointer"
+          >
+            Let's Talk
+          </button>
+        </div>
       </div>
     </nav>
   );

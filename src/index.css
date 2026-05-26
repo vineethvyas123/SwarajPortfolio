@@ -1,17 +1,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;700&display=swap');
 @import "tailwindcss";
 
+:root {
+  --gold: #C9922A;
+  --gold-light: #E8B84B;
+  --gold-dim: rgba(201,146,42,0.15);
+  
+  --bg-dark: #0B0D11;
+  --bg-dark2: #111318;
+  --bg-dark3: #181C24;
+  --bg-dark4: #1E2330;
+  
+  --border-gold: rgba(201,146,42,0.25);
+  --text-primary: #F0EDE6;
+  --muted-gray: #8A8F9E;
+  
+  --grid-glow: rgba(201, 146, 42, 0.08);
+  --grid-line: rgba(201, 146, 42, 0.03);
+}
+
+html.light {
+  --bg-dark: #FAF8F5;       /* Premium warm linen/parchment light background */
+  --bg-dark2: #FFFFFF;      /* Pure white for raised components/cards */
+  --bg-dark3: #F1ECE2;      /* Elegant stone gray for sub-components */
+  --bg-dark4: #E9E1D2;      /* Subtle border contrast/active states */
+  
+  --border-gold: rgba(210, 155, 50, 0.35); /* Crisp, legible gold borders on light paper */
+  --text-primary: #1A1C22;  /* Rich charcoal executive text for perfect contrast */
+  --muted-gray: #555A68;    /* Deep slate gray for legible secondary descriptors */
+  
+  --grid-glow: rgba(201, 146, 42, 0.04);
+  --grid-line: rgba(201, 146, 42, 0.015);
+}
+
 @theme {
-  --color-gold: #C9922A;
-  --color-gold-light: #E8B84B;
-  --color-gold-dim: rgba(201,146,42,0.15);
-  --color-dark: #0B0D11;
-  --color-dark2: #111318;
-  --color-dark3: #181C24;
-  --color-dark4: #1E2330;
-  --color-border-gold: rgba(201,146,42,0.2);
-  --color-text-primary: #F0EDE6;
-  --color-muted-gray: #8A8F9E;
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-dim: var(--gold-dim);
+  --color-dark: var(--bg-dark);
+  --color-dark2: var(--bg-dark2);
+  --color-dark3: var(--bg-dark3);
+  --color-dark4: var(--bg-dark4);
+  --color-border-gold: var(--border-gold);
+  --color-text-primary: var(--text-primary);
+  --color-muted-gray: var(--muted-gray);
   
   --font-serif: "Cormorant Garamond", Georgia, serif;
   --font-sans: "DM Sans", system-ui, sans-serif;
@@ -20,9 +52,10 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    background-color: var(--color-dark);
-    color: var(--color-text-primary);
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
     font-family: var(--font-sans);
+    transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 
@@ -41,23 +74,24 @@
 /* Custom background patterns */
 .grid-bg-pattern {
   background-image: 
-    radial-gradient(circle at top right, rgba(201, 146, 42, 0.08), transparent 50%),
-    linear-gradient(rgba(201, 146, 42, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201, 146, 42, 0.03) 1px, transparent 1px);
+    radial-gradient(circle at top right, var(--grid-glow), transparent 50%),
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 100% 100%, 40px 40px, 40px 40px;
+  transition: background-image 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Radial Glows */
+/* Radial Glows using pure transparent for cross-theme blending */
 .radial-glow-top-right {
-  background: radial-gradient(circle at 80% 20%, rgba(201, 146, 42, 0.08) 0%, rgba(11, 13, 17, 0) 65%);
+  background: radial-gradient(circle at 80% 20%, rgba(201, 146, 42, 0.08) 0%, transparent 65%);
 }
 
 .radial-glow-bottom-center {
-  background: radial-gradient(circle at 50% 100%, rgba(201, 146, 42, 0.06) 0%, rgba(11, 13, 17, 0) 70%);
+  background: radial-gradient(circle at 50% 100%, rgba(201, 146, 42, 0.06) 0%, transparent 70%);
 }
 
 .radial-glow-blue-left {
-  background: radial-gradient(circle at 10% 50%, rgba(42, 100, 201, 0.05) 0%, rgba(11, 13, 17, 0) 60%);
+  background: radial-gradient(circle at 10% 50%, rgba(42, 100, 201, 0.05) 0%, transparent 60%);
 }
 
 /* Custom underline grow animation on hover */
