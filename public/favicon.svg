@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    rect.bg { fill: #0B0D11; }
+    rect.border { stroke: #C9922A; stroke-opacity: 0.45; }
+    text.logo { fill: #C9922A; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700; }
+    @media (prefers-color-scheme: light) {
+      rect.bg { fill: #FAF8F5; }
+      rect.border { stroke: #C9922A; stroke-opacity: 0.6; }
+      text.logo { fill: #C9922A; }
+    }
+  </style>
+  <rect class="bg" width="32" height="32" rx="8" />
+  <rect class="border" width="30" height="30" x="1" y="1" rx="7" fill="none" stroke-width="1.5" />
+  <text class="logo" x="50%" y="56%" dominant-baseline="central" text-anchor="middle" font-size="15" letter-spacing="0.5">SK</text>
+</svg>
