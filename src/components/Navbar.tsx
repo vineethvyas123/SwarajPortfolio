@@ -4,13 +4,7 @@ import { Sun, Moon } from "lucide-react";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [theme, setTheme] = useState<"dark" | "light">(() => {
-    if (typeof window !== "undefined") {
-      const savedTheme = localStorage.getItem("skp_theme");
-      if (savedTheme === "light") return "light";
-    }
-    return "dark";
-  });
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   useEffect(() => {
     const handleScroll = () => {
