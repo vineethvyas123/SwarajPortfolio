@@ -3,7 +3,7 @@ import AnimatedSection from "./AnimatedSection";
 
 export default function Competencies() {
   return (
-    <AnimatedSection id="competencies" className="bg-dark py-20 px-6 sm:px-12 md:px-24 border-b border-gold/10">
+    <AnimatedSection id="competencies" className="bg-dark py-12 sm:py-16 px-6 sm:px-12 md:px-24 border-b border-gold/10">
       <div className="max-w-7xl mx-auto">
         
         {/* Section title */}

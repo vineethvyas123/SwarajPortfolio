@@ -3,7 +3,7 @@ import AnimatedSection from "./AnimatedSection";
 
 export default function Achievements() {
   return (
-    <AnimatedSection id="achievements" className="bg-dark2 py-24 sm:py-32 px-6 sm:px-12 md:px-24 border-b border-gold/10">
+    <AnimatedSection id="achievements" className="bg-dark2 py-12 sm:py-16 px-6 sm:px-12 md:px-24 border-b border-gold/10">
       <div className="max-w-7xl mx-auto">
         
         {/* Section title */}

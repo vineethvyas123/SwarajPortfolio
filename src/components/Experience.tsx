@@ -3,7 +3,7 @@ import AnimatedSection from "./AnimatedSection";
 
 export default function Experience() {
   return (
-    <section id="experience" className="bg-dark2 py-24 sm:py-32 px-6 sm:px-12 md:px-24 border-b border-gold/10 relative overflow-hidden">
+    <section id="experience" className="bg-dark2 py-12 sm:py-16 px-6 sm:px-12 md:px-24 border-b border-gold/10 relative overflow-hidden">
       
       {/* Decorative Radial Glow */}
       <div className="absolute inset-y-0 left-0 w-80 radial-glow-blue-left pointer-events-none"></div>

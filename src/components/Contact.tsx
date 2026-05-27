@@ -6,7 +6,7 @@ export default function Contact() {
   return (
     <AnimatedSection
       id="contact"
-      className="bg-dark2 py-28 px-6 sm:px-12 md:px-24 border-b border-gold/10 relative overflow-hidden radial-glow-bottom-center"
+      className="bg-dark2 py-14 sm:py-18 px-6 sm:px-12 md:px-24 border-b border-gold/10 relative overflow-hidden radial-glow-bottom-center"
     >
       <div className="max-w-4xl mx-auto text-center relative z-10">
         
