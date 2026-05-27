@@ -66,7 +66,7 @@ export default function About() {
                   key={idx}
                   className="bg-dark3 border border-border-gold border-l-[3px] border-l-gold p-6 rounded-[4px] hover:border-gold hover:-translate-y-1 transition-all duration-300 shadow-lg group-hover:shadow-gold-dim"
                 >
-                  <p className="font-serif text-3.5xl font-bold text-gold tracking-tight mb-2">
+                  <p className="font-sans text-3xl sm:text-4xl font-extrabold text-gold-light tracking-tight mb-2 leading-none">
                     {card.value}
                   </p>
                   <p className="text-muted-gray text-[0.82rem] leading-snug font-medium font-sans">
